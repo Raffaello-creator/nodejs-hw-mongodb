@@ -10,8 +10,22 @@ import {
 
 export const getContactsController = async (req, res, next) => {
   try {
-    const { page = 1, perPage = 10, sortBy = 'name', sortOrder = 'asc', type, isFavourite } = req.query;
-    const result = await getAllContacts({ page, perPage, sortBy, sortOrder, type, isFavourite });
+    const {
+      page = 1,
+      perPage = 10,
+      sortBy = 'name',
+      sortOrder = 'asc',
+      type,
+      isFavourite,
+    } = req.query;
+    const result = await getAllContacts({
+      page,
+      perPage,
+      sortBy,
+      sortOrder,
+      type,
+      isFavourite,
+    });
     res.status(200).json({
       status: 200,
       message: 'Successfully found contacts!',

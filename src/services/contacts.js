@@ -1,9 +1,17 @@
 import { Contact } from '../models/contact.model.js';
 
-export const getAllContacts = async ({ page = 1, perPage = 10, sortBy = 'name', sortOrder = 'asc', type, isFavourite }) => {
+export const getAllContacts = async ({
+  page = 1,
+  perPage = 10,
+  sortBy = 'name',
+  sortOrder = 'asc',
+  type,
+  isFavourite,
+}) => {
   const filter = {};
   if (type) filter.contactType = type;
-  if (typeof isFavourite !== 'undefined') filter.isFavourite = isFavourite === 'true' || isFavourite === true;
+  if (typeof isFavourite !== 'undefined')
+    filter.isFavourite = isFavourite === 'true' || isFavourite === true;
 
   const skip = (page - 1) * perPage;
   const sort = { [sortBy]: sortOrder === 'desc' ? -1 : 1 };
