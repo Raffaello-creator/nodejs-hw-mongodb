@@ -6,7 +6,6 @@ export const isValidId = (req, res, next) => {
     return res.status(400).json({
       status: 400,
       message: 'Invalid contact ID',
-      data: null,
     });
   }
   next();
