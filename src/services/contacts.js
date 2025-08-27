@@ -7,8 +7,9 @@ export const getAllContacts = async ({
   sortOrder = 'asc',
   type,
   isFavourite,
+  userId,
 }) => {
-  const filter = {};
+  const filter = { userId };
   if (type) filter.contactType = type;
   if (typeof isFavourite !== 'undefined')
     filter.isFavourite = isFavourite === 'true' || isFavourite === true;
@@ -33,18 +34,20 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = async (id) => {
-  return Contact.findById(id);
+export const getContactById = async (id, userId) => {
+  return Contact.findOne({ _id: id, userId });
 };
 
-export const addContact = async (contactData) => {
-  return Contact.create(contactData);
+export const addContact = async (contactData, userId) => {
+  return Contact.create({ ...contactData, userId });
 };
 
-export const updateContact = async (contactId, updateData) => {
-  return Contact.findByIdAndUpdate(contactId, updateData, { new: true });
+export const updateContact = async (contactId, updateData, userId) => {
+  return Contact.findOneAndUpdate({ _id: contactId, userId }, updateData, {
+    new: true,
+  });
 };
 
-export const removeContact = async (contactId) => {
-  return Contact.findByIdAndDelete(contactId);
+export const removeContact = async (contactId, userId) => {
+  return Contact.findOneAndDelete({ _id: contactId, userId });
 };

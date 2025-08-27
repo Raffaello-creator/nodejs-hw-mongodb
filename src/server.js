@@ -4,7 +4,10 @@ import pino from 'pino-http';
 
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+
 import contactsRouter from './routers/contacts.js';
+import authRouter from './routers/auth.js';
+import { authenticate } from './middlewares/authenticate.js';
 
 export const setupServer = () => {
   const app = express();
@@ -13,7 +16,8 @@ export const setupServer = () => {
   app.use(pino());
   app.use(express.json());
 
-  app.use('/contacts', contactsRouter);
+  app.use('/auth', authRouter);
+  app.use('/contacts', authenticate, contactsRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
