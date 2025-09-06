@@ -9,6 +9,8 @@ import { generateTokens } from '../utils/tokenUtils.js';
 
 import { sendResetEmailService } from '../services/auth.js';
 
+import { resetPwdService } from '../services/auth.js';
+
 export const registerController = async (req, res, next) => {
   const user = await registerService(req.body);
   res.status(201).json({
