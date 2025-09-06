@@ -8,6 +8,8 @@ import {
   removeContact,
 } from '../services/contacts.js';
 
+import { uploadToCloudinary } from '../utils/cloudinary.js';
+
 export const getContactsController = async (req, res, next) => {
   try {
     const {
@@ -66,7 +68,14 @@ export const addContactController = async (req, res, next) => {
         'Missing required fields: name, phoneNumber, contactType',
       );
     }
-    const newContact = await addContact(req.body, req.user._id);
+    let photoUrl;
+    if (req.file) {
+      photoUrl = await uploadToCloudinary(req.file.buffer);
+    }
+    const newContact = await addContact(
+      { ...req.body, photo: photoUrl },
+      req.user._id,
+    );
     res.status(201).json({
       status: 201,
       message: 'Successfully created a contact!',
@@ -83,9 +92,14 @@ export const updateContactController = async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(contactId)) {
       throw createError(400, 'Invalid contact ID');
     }
+    let photoUrl;
+    if (req.file) {
+      photoUrl = await uploadToCloudinary(req.file.buffer);
+    }
+    const updateData = photoUrl ? { ...req.body, photo: photoUrl } : req.body;
     const updatedContact = await updateContact(
       contactId,
-      req.body,
+      updateData,
       req.user._id,
     );
     if (!updatedContact) {

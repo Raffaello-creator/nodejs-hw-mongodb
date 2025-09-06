@@ -7,6 +7,8 @@ import {
 import { Session } from '../models/session.model.js';
 import { generateTokens } from '../utils/tokenUtils.js';
 
+import { sendResetEmailService } from '../services/auth.js';
+
 export const registerController = async (req, res, next) => {
   const user = await registerService(req.body);
   res.status(201).json({
@@ -40,6 +42,24 @@ export const loginController = async (req, res, next) => {
     status: 200,
     message: 'Successfully logged in an user!',
     data: { accessToken },
+  });
+};
+
+export const sendResetEmailController = async (req, res, next) => {
+  await sendResetEmailService(req.body.email);
+  res.status(200).json({
+    status: 200,
+    message: 'Reset password email has been successfully sent.',
+    data: {},
+  });
+};
+
+export const resetPwdController = async (req, res, next) => {
+  await resetPwdService(req.body.token, req.body.password);
+  res.status(200).json({
+    status: 200,
+    message: 'Password has been successfully reset.',
+    data: {},
   });
 };
 
