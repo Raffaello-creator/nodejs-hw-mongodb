@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "jest",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "build": "npm run build-docs",
+    "build-docs": "redocly bundle docs/openapi.yaml --ext json -o docs/swagger.json",
+    "preview-docs": "redocly preview-docs"
   },
   "repository": {
     "type": "module",
@@ -25,6 +28,7 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.32.0",
+    "@redocly/cli": "^2.0.8",
     "eslint": "^9.32.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.3.0",
@@ -46,6 +50,7 @@
     "nodemailer": "^7.0.6",
     "pino-http": "^10.5.0",
     "supertest": "^7.1.4",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^11.1.0"
   }
 }
