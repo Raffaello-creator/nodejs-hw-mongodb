@@ -14,7 +14,7 @@ tags:
     description: Authentication and user management
 servers:
   - url: http://localhost:3000
-  - url: https://your-deployed-site.com
+  - url: https://nodejs-hw-mongodb-1-m7fq.onrender.com
 paths:
   /contacts:
     get:
