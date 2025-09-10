@@ -1,33 +1,32 @@
-post:
-  tags:
-    - Contacts
-  summary: Create a new contact
-  operationId: createContact
-  description: Creates a new contact and returns it.
-  security:
-    - bearerAuth: []
-  requestBody:
-    required: true
+tags:
+  - Contacts
+summary: Create a new contact
+operationId: createContact
+description: Creates a new contact and returns it.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '../../components/contact.yaml'
+responses:
+  '201':
+    description: Contact created successfully
     content:
       application/json:
         schema:
           $ref: '../../components/contact.yaml'
-  responses:
-    '201':
-      description: Contact created successfully
-      content:
-        application/json:
-          schema:
-            $ref: '../../components/contact.yaml'
-    '400':
-      description: Invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '../../components/error.yaml'
-    '401':
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '../../components/error.yaml'
+  '400':
+    description: Invalid input
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/error.yaml'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/error.yaml'
