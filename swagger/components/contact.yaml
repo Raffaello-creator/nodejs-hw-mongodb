@@ -6,17 +6,17 @@ properties:
   name:
     type: string
     example: 'John Doe'
-  email:
-    type: string
-    example: 'john@example.com'
-  phone:
+  phoneNumber:
     type: string
     example: '+1234567890'
-  favorite:
-    type: boolean
-    example: false
+  contactType:
+    type: string
+    example: 'work'
+  photo:
+    type: string
+    format: binary
+    description: Contact photo file
 required:
-  - _id
   - name
-  - email
-  - phone
+  - phoneNumber
+  - contactType

@@ -2,7 +2,7 @@ tags:
   - Contacts
 summary: Get all contacts
 operationId: getContacts
-description: Returns a list of contacts. Supports filtering and pagination.
+description: Returns a list of contacts with pagination and filtering.
 security:
   - bearerAuth: []
 parameters:
@@ -13,29 +13,95 @@ parameters:
     schema:
       type: integer
       example: 1
-  - name: limit
+  - name: perPage
     in: query
     required: false
     description: Number of contacts per page
     schema:
       type: integer
-      example: 20
-  - name: favorite
+      example: 10
+  - name: sortBy
     in: query
     required: false
-    description: Filter by favorite status
+    description: Field to sort by
     schema:
-      type: boolean
-      example: true
+      type: string
+      example: name
+  - name: sortOrder
+    in: query
+    required: false
+    description: Sort order (asc/desc)
+    schema:
+      type: string
+      example: asc
+  - name: type
+    in: query
+    required: false
+    description: Contact type filter
+    schema:
+      type: string
+      example: work
 responses:
   '200':
-    description: List of contacts
+    description: Successfully found contacts
     content:
       application/json:
         schema:
-          type: array
-          items:
-            $ref: '../../components/contact.yaml'
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contacts!
+            data:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../components/contact.yaml'
+                page:
+                  type: integer
+                  example: 1
+                perPage:
+                  type: integer
+                  example: 10
+                totalItems:
+                  type: integer
+                  example: 100
+                totalPages:
+                  type: integer
+                  example: 10
+                hasPreviousPage:
+                  type: boolean
+                  example: false
+                hasNextPage:
+                  type: boolean
+                  example: true
+        examples:
+          success:
+            value:
+              status: 200
+              message: Successfully found contacts!
+              data:
+                name: 'John Doe'
+                phoneNumber: '+1234567890'
+                contactType: 'work'
+                userId: '68bc0c4a5113f30a9e70eb9f'
+                photo: 'https://res.cloudinary.com/dfhdxlg1y/image/upload/v1757605150/n672bhjkcm720amcxyu8.png'
+                _id: '68c2ed1f979e3b1c8a78db94'
+                createdAt: '2025-09-11T15:39:11.246Z'
+                updatedAt: '2025-09-11T15:39:11.246Z'
+                __v: 0
+
+                page: 1
+                perPage: 10
+                totalItems: 100
+                totalPages: 10
+                hasPreviousPage: false
+                hasNextPage: true
   '401':
     description: Unauthorized
     content:

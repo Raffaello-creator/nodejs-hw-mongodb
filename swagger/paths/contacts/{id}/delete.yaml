@@ -13,12 +13,8 @@ parameters:
     schema:
       type: string
 responses:
-  '200':
-    description: Contact deleted successfully
-    content:
-      application/json:
-        schema:
-          $ref: '../../../components/contact.yaml'
+  '204':
+    description: Contact deleted successfully. No content returned.
   '404':
     description: Contact not found
     content:

@@ -18,7 +18,6 @@ export const getContactsController = async (req, res, next) => {
       sortBy = 'name',
       sortOrder = 'asc',
       type,
-      isFavourite,
     } = req.query;
     const result = await getAllContacts({
       page,
@@ -26,7 +25,6 @@ export const getContactsController = async (req, res, next) => {
       sortBy,
       sortOrder,
       type,
-      isFavourite,
       userId: req.user._id,
     });
     res.status(200).json({

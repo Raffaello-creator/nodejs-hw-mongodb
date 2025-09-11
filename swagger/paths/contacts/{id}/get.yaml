@@ -14,11 +14,34 @@ parameters:
       type: string
 responses:
   '200':
-    description: Contact found and returned
+    description: Successfully found contact
     content:
       application/json:
         schema:
-          $ref: '../../../components/contact.yaml'
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contact with id 60d21b4667d0d8992e610c85!
+            data:
+              $ref: '../../../components/contact.yaml'
+        examples:
+          success:
+            value:
+              status: 200
+              message: Successfully found contact with id 60d21b4667d0d8992e610c85!
+              data:
+                _id: '60d21b4667d0d8992e610c85'
+                name: 'John Doe'
+                phoneNumber: '+1234567890'
+                contactType: 'work'
+                photo: null
+                createdAt: '2025-09-11T15:24:13.523Z'
+                updatedAt: '2025-09-11T15:24:13.523Z'
+                __v: 0
   '404':
     description: Contact not found
     content:

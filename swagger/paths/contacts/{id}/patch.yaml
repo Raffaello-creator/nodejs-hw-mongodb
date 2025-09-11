@@ -15,16 +15,57 @@ parameters:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
-        $ref: '../../../components/contact.yaml'
+        type: object
+        properties:
+          name:
+            type: string
+            example: 'John Doe'
+          phoneNumber:
+            type: string
+            example: '+1234567890'
+          contactType:
+            type: string
+            example: 'work'
+          photo:
+            type: string
+            format: binary
+            description: Contact photo file
+      encoding:
+        photo:
+          contentType: image/png, image/jpeg
 responses:
   '200':
     description: Contact updated successfully
     content:
       application/json:
         schema:
-          $ref: '../../../components/contact.yaml'
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully patched a contact!
+            data:
+              $ref: '../../../components/contact.yaml'
+        examples:
+          success:
+            value:
+              status: 200
+              message: Successfully patched a contact!
+              data:
+                name: 'John Doe'
+                phoneNumber: '+1234567890'
+                contactType: 'work'
+                userId: '68bc0c4a5113f30a9e70eb9f'
+                photo: 'https://res.cloudinary.com/dfhdxlg1y/image/upload/v1757605150/n672bhjkcm720amcxyu8.png'
+                _id: '68c2ed1f979e3b1c8a78db94'
+                createdAt: '2025-09-11T15:39:11.246Z'
+                updatedAt: '2025-09-11T15:39:11.246Z'
+                __v: 0
   '400':
     description: Invalid input
     content:

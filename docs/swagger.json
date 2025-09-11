@@ -31,7 +31,7 @@
         ],
         "summary": "Get all contacts",
         "operationId": "getContacts",
-        "description": "Returns a list of contacts. Supports filtering and pagination.",
+        "description": "Returns a list of contacts with pagination and filtering.",
         "security": [
           {
             "bearerAuth": []
@@ -49,35 +49,122 @@
             }
           },
           {
-            "name": "limit",
+            "name": "perPage",
             "in": "query",
             "required": false,
             "description": "Number of contacts per page",
             "schema": {
               "type": "integer",
-              "example": 20
+              "example": 10
             }
           },
           {
-            "name": "favorite",
+            "name": "sortBy",
             "in": "query",
             "required": false,
-            "description": "Filter by favorite status",
+            "description": "Field to sort by",
             "schema": {
-              "type": "boolean",
-              "example": true
+              "type": "string",
+              "example": "name"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "description": "Sort order (asc/desc)",
+            "schema": {
+              "type": "string",
+              "example": "asc"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "description": "Contact type filter",
+            "schema": {
+              "type": "string",
+              "example": "work"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "List of contacts",
+            "description": "Successfully found contacts",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/contact"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found contacts!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/contact"
+                          }
+                        },
+                        "page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "perPage": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "totalItems": {
+                          "type": "integer",
+                          "example": 100
+                        },
+                        "totalPages": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "hasPreviousPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "value": {
+                      "status": 200,
+                      "message": "Successfully found contacts!",
+                      "data": {
+                        "name": "John Doe",
+                        "phoneNumber": "+1234567890",
+                        "contactType": "work",
+                        "userId": "68bc0c4a5113f30a9e70eb9f",
+                        "photo": "https://res.cloudinary.com/dfhdxlg1y/image/upload/v1757605150/n672bhjkcm720amcxyu8.png",
+                        "_id": "68c2ed1f979e3b1c8a78db94",
+                        "createdAt": "2025-09-11T15:39:11.246Z",
+                        "updatedAt": "2025-09-11T15:39:11.246Z",
+                        "__v": 0,
+                        "page": 1,
+                        "perPage": 10,
+                        "totalItems": 100,
+                        "totalPages": 10,
+                        "hasPreviousPage": false,
+                        "hasNextPage": true
+                      }
+                    }
                   }
                 }
               }
@@ -110,9 +197,38 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/contact"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+1234567890"
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "example": "work"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Contact photo file"
+                  }
+                },
+                "required": [
+                  "name",
+                  "phoneNumber",
+                  "contactType"
+                ]
+              },
+              "encoding": {
+                "photo": {
+                  "contentType": "image/png, image/jpeg"
+                }
               }
             }
           }
@@ -123,7 +239,39 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/contact"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created a contact!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/contact"
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "value": {
+                      "status": 201,
+                      "message": "Successfully created a contact!",
+                      "data": {
+                        "name": "John Doe",
+                        "phoneNumber": "+1234567890",
+                        "contactType": "work",
+                        "userId": "68bc0c4a5113f30a9e70eb9f",
+                        "photo": "https://res.cloudinary.com/dfhdxlg1y/image/upload/v1757605150/n672bhjkcm720amcxyu8.png",
+                        "_id": "68c2ed1f979e3b1c8a78db94",
+                        "createdAt": "2025-09-11T15:39:11.246Z",
+                        "updatedAt": "2025-09-11T15:39:11.246Z",
+                        "__v": 0
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -177,11 +325,42 @@
         ],
         "responses": {
           "200": {
-            "description": "Contact found and returned",
+            "description": "Successfully found contact",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/contact"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found contact with id 60d21b4667d0d8992e610c85!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/contact"
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "value": {
+                      "status": 200,
+                      "message": "Successfully found contact with id 60d21b4667d0d8992e610c85!",
+                      "data": {
+                        "_id": "60d21b4667d0d8992e610c85",
+                        "name": "John Doe",
+                        "phoneNumber": "+1234567890",
+                        "contactType": "work",
+                        "photo": null,
+                        "createdAt": "2025-09-11T15:24:13.523Z",
+                        "updatedAt": "2025-09-11T15:24:13.523Z",
+                        "__v": 0
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -224,9 +403,33 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/contact"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+1234567890"
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "example": "work"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Contact photo file"
+                  }
+                }
+              },
+              "encoding": {
+                "photo": {
+                  "contentType": "image/png, image/jpeg"
+                }
               }
             }
           }
@@ -237,7 +440,39 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/contact"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully patched a contact!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/contact"
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "value": {
+                      "status": 200,
+                      "message": "Successfully patched a contact!",
+                      "data": {
+                        "name": "John Doe",
+                        "phoneNumber": "+1234567890",
+                        "contactType": "work",
+                        "userId": "68bc0c4a5113f30a9e70eb9f",
+                        "photo": "https://res.cloudinary.com/dfhdxlg1y/image/upload/v1757605150/n672bhjkcm720amcxyu8.png",
+                        "_id": "68c2ed1f979e3b1c8a78db94",
+                        "createdAt": "2025-09-11T15:39:11.246Z",
+                        "updatedAt": "2025-09-11T15:39:11.246Z",
+                        "__v": 0
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -298,15 +533,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Contact deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/contact"
-                }
-              }
-            }
+          "204": {
+            "description": "Contact deleted successfully. No content returned."
           },
           "401": {
             "description": "Unauthorized",
@@ -333,6 +561,12 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
     "schemas": {
       "contact": {
         "type": "object",
@@ -345,34 +579,42 @@
             "type": "string",
             "example": "John Doe"
           },
-          "email": {
-            "type": "string",
-            "example": "john@example.com"
-          },
-          "phone": {
+          "phoneNumber": {
             "type": "string",
             "example": "+1234567890"
           },
-          "favorite": {
-            "type": "boolean",
-            "example": false
+          "contactType": {
+            "type": "string",
+            "example": "work"
+          },
+          "photo": {
+            "type": "string",
+            "format": "binary",
+            "description": "Contact photo file"
           }
         },
         "required": [
-          "_id",
           "name",
-          "email",
-          "phone"
+          "phoneNumber",
+          "contactType"
         ]
       },
       "error": {
         "type": "object",
         "properties": {
+          "status": {
+            "type": "integer",
+            "example": 404
+          },
           "message": {
             "type": "string",
             "example": "Contact not found"
           }
-        }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
       }
     }
   }

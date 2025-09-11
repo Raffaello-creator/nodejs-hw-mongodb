@@ -13,10 +13,6 @@ const contactSchema = new mongoose.Schema(
     email: {
       type: String,
     },
-    isFavourite: {
-      type: Boolean,
-      default: false,
-    },
     contactType: {
       type: String,
       enum: ['work', 'home', 'personal'],
