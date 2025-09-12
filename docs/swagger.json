@@ -124,11 +124,11 @@
                         },
                         "totalItems": {
                           "type": "integer",
-                          "example": 100
+                          "example": 3
                         },
                         "totalPages": {
                           "type": "integer",
-                          "example": 10
+                          "example": 1
                         },
                         "hasPreviousPage": {
                           "type": "boolean",
@@ -136,7 +136,7 @@
                         },
                         "hasNextPage": {
                           "type": "boolean",
-                          "example": true
+                          "example": false
                         }
                       }
                     }
@@ -148,21 +148,47 @@
                       "status": 200,
                       "message": "Successfully found contacts!",
                       "data": {
-                        "name": "John Doe",
-                        "phoneNumber": "+1234567890",
-                        "contactType": "work",
-                        "userId": "68bc0c4a5113f30a9e70eb9f",
-                        "photo": "https://res.cloudinary.com/dfhdxlg1y/image/upload/v1757605150/n672bhjkcm720amcxyu8.png",
-                        "_id": "68c2ed1f979e3b1c8a78db94",
-                        "createdAt": "2025-09-11T15:39:11.246Z",
-                        "updatedAt": "2025-09-11T15:39:11.246Z",
-                        "__v": 0,
+                        "data": [
+                          {
+                            "_id": "68c2e99d4c743b962b11edea",
+                            "name": "John Doe",
+                            "phoneNumber": "+1234567890",
+                            "contactType": "work",
+                            "userId": "68bc0c4a5113f30a9e70eb9f",
+                            "photo": "https://res.cloudinary.com/dfhdxlg1y/image/upload/v1757604253/o2afpis8ltqg2g3ioj5s.jpg",
+                            "createdAt": "2025-09-11T15:24:13.523Z",
+                            "updatedAt": "2025-09-11T16:11:51.315Z",
+                            "__v": 0
+                          },
+                          {
+                            "_id": "68c2ed1f979e3b1c8a78db94",
+                            "name": "John Doe",
+                            "phoneNumber": "+12345678906",
+                            "contactType": "work",
+                            "userId": "68bc0c4a5113f30a9e70eb9f",
+                            "photo": "https://res.cloudinary.com/dfhdxlg1y/image/upload/v1757605150/n672bhjkcm720amcxyu8.png",
+                            "createdAt": "2025-09-11T15:39:11.246Z",
+                            "updatedAt": "2025-09-11T15:44:07.578Z",
+                            "__v": 0
+                          },
+                          {
+                            "_id": "68bcc5bf88dff7fc5c21443e",
+                            "name": "www",
+                            "phoneNumber": "380574586598",
+                            "contactType": "work",
+                            "userId": "68bc0c4a5113f30a9e70eb9f",
+                            "photo": "https://res.cloudinary.com/dfhdxlg1y/image/upload/v1757201854/o4qmk99vq48cd5s3nuxk.jpg",
+                            "createdAt": "2025-09-06T23:37:35.102Z",
+                            "updatedAt": "2025-09-06T23:37:35.102Z",
+                            "__v": 0
+                          }
+                        ],
                         "page": 1,
                         "perPage": 10,
-                        "totalItems": 100,
-                        "totalPages": 10,
+                        "totalItems": 3,
+                        "totalPages": 1,
                         "hasPreviousPage": false,
-                        "hasNextPage": true
+                        "hasNextPage": false
                       }
                     }
                   }
@@ -213,6 +239,10 @@
                     "type": "string",
                     "example": "work"
                   },
+                  "email": {
+                    "type": "string",
+                    "example": "emailexp@gmail.com"
+                  },
                   "photo": {
                     "type": "string",
                     "format": "binary",
@@ -222,7 +252,9 @@
                 "required": [
                   "name",
                   "phoneNumber",
-                  "contactType"
+                  "contactType",
+                  "photo",
+                  "email"
                 ]
               },
               "encoding": {
@@ -389,17 +421,7 @@
             "bearerAuth": []
           }
         ],
-        "parameters": [
-          {
-            "name": "contactId",
-            "in": "path",
-            "required": true,
-            "description": "Unique identifier of the contact",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": null,
         "requestBody": {
           "required": true,
           "content": {
@@ -418,6 +440,10 @@
                   "contactType": {
                     "type": "string",
                     "example": "work"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "emailexp@gmail.com"
                   },
                   "photo": {
                     "type": "string",

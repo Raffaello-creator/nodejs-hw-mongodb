@@ -21,6 +21,9 @@ requestBody:
           contactType:
             type: string
             example: 'work'
+          email:
+            type: string
+            example: 'emailexp@gmail.com'
           photo:
             type: string
             format: binary
@@ -29,6 +32,8 @@ requestBody:
           - name
           - phoneNumber
           - contactType
+          - photo
+          - email
       encoding:
         photo:
           contentType: image/png, image/jpeg

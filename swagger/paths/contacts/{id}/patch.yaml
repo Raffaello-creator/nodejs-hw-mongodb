@@ -6,12 +6,6 @@ description: Updates an existing contact by its unique ID.
 security:
   - bearerAuth: []
 parameters:
-  - name: contactId
-    in: path
-    required: true
-    description: Unique identifier of the contact
-    schema:
-      type: string
 requestBody:
   required: true
   content:
@@ -28,6 +22,9 @@ requestBody:
           contactType:
             type: string
             example: 'work'
+          email:
+            type: string
+            example: 'emailexp@gmail.com'
           photo:
             type: string
             format: binary
