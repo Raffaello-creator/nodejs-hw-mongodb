@@ -25,6 +25,9 @@ requestBody:
           email:
             type: string
             example: 'emailexp@gmail.com'
+          isFavourite:
+            type: boolean
+            example: true
           photo:
             type: string
             format: binary
